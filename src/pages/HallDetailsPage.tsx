@@ -1,4 +1,5 @@
 // kommer innehålla dynamisk route
+//placeholder, senare kopplar jag in alla 3 hallar
 
 function HallDetailsPage() {
   return (
