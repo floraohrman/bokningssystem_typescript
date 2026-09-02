@@ -1,0 +1,1 @@
+export type Sport = "football" | "handball" | "floorball";
