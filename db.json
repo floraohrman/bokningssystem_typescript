@@ -23,32 +23,32 @@
       "sport": "football",
       "customerName": "Anna Andersson",
       "customerEmail": "anna@example.com",
-      "startTime": "2026-09-05T10:00:00",
-      "endTime": "2026-09-05T11:00:00",
+      "startTime": "2026-09-05T08:00:00",
+      "endTime": "2026-09-05T10:30:00",
       "price": 500,
       "status": "confirmed"
     },
     {
       "id": "2",
-      "hallId": "2",
-      "sport": "handball",
+      "hallId": "1",
+      "sport": "football",
       "customerName": "Erik Svensson",
       "customerEmail": "erik@example.com",
-      "startTime": "2026-09-05T13:00:00",
-      "endTime": "2026-09-05T14:00:00",
+      "startTime": "2026-09-05T10:30:00",
+      "endTime": "2026-09-05T13:00:00",
       "price": 500,
       "status": "confirmed"
     },
     {
       "id": "3",
-      "hallId": "3",
-      "sport": "floorball",
+      "hallId": "1",
+      "sport": "football",
       "customerName": "Lisa Karlsson",
       "customerEmail": "lisa@example.com",
-      "startTime": "2026-09-06T15:00:00",
-      "endTime": "2026-09-06T16:00:00",
+      "startTime": "2026-09-05T13:00:00",
+      "endTime": "2026-09-05T15:30:00",
       "price": 500,
-      "status": "cancelled"
+      "status": "confirmed"
     }
   ]
 }
