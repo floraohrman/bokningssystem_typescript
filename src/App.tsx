@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <main>
-        <h1>Studio Spot</h1>
+        <h1>BALLERS</h1>
         <Outlet />
       </main>
     </>
