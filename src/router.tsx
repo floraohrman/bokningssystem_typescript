@@ -1,22 +1,20 @@
-import { createElement, type ComponentType } from "react";
+import HomePage from "./pages/HomePage";
+import HallsPage from "./pages/HallsPage";
+import HallDetailsPage from "./pages/HallDetailsPage";
 
-interface PageModule {
-  default: ComponentType;
-}
-
-const pages = import.meta.glob<PageModule>("./pages/**/*.tsx", { eager: true });
-
-const routes = Object.entries(pages).map(([path, module]) => {
-  const routePath = path
-    .replace("./pages", "")
-    .replace(/\.tsx$/, "")
-    .replace(/\/index$/, "")
-    .toLowerCase();
-
-  return {
-    path: routePath,
-    element: createElement(module.default),
-  };
-});
+const routes = [
+  {
+    index: true,
+    element: <HomePage />,
+  },
+  {
+    path: "halls",
+    element: <HallsPage />,
+  },
+  {
+    path: "halls/:id",
+    element: <HallDetailsPage />,
+  },
+];
 
 export default routes;
