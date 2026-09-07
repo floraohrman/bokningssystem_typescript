@@ -1,0 +1,119 @@
+.booking-calendar {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: #f4f8fc
+}
+
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.calendar-navigation button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: rgb(17, 18, 18);
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.day-column {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  color: #0f0f10;
+  text-transform: capitalize;
+}
+
+.day-column h3,
+.day-column p {
+  text-align: center;
+  margin: 4px 0;
+}
+
+.time-slot {
+  width: 100%;
+  min-height: 70px;
+  margin-top: 10px;
+  padding: 10px;
+
+  color: #0f0f10;
+
+  border: 2px solid #2670b8;
+  border-radius: 10px;
+
+  background: #f4f8fc;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.time-slot:hover {
+  background: #e7f1fb;
+}
+
+.time-slot.booked {
+  border-color: #bbb;
+  background: #e5e5e5;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* Surfplatta */
+@media (max-width: 1000px) {
+  .calendar {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Mindre surfplatta */
+@media (max-width: 750px) {
+  .calendar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .calendar-navigation {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobil */
+@media (max-width: 500px) {
+  .booking-calendar {
+    padding: 10px;
+  }
+
+  .calendar {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-navigation {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .calendar-navigation button {
+    width: 100%;
+  }
+
+  .time-slot {
+    min-height: 60px;
+  }
+}

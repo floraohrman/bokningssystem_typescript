@@ -1,0 +1,133 @@
+.booking-page {
+  width: 100%;
+  padding: 32px 16px;
+}
+
+.booking-layout {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.booking-form-card,
+.booking-summary {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid #e5e7eb;
+}
+
+.booking-form-card h2,
+.booking-summary h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+
+  font-size: 16px;
+}
+
+.form-group input:focus {
+  outline: 2px solid #2670b8;
+  outline-offset: 2px;
+}
+
+.booking-submit {
+  width: 100%;
+  padding: 14px 20px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #214b73;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.booking-submit:hover {
+  background: #183a5a;
+}
+
+.booking-message {
+  margin-top: 16px;
+}
+
+.booking-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.summary-row span {
+  color: #64748b;
+}
+
+.summary-divider {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.summary-total {
+  font-size: 20px;
+}
+
+/* Surfplatta */
+@media (max-width: 900px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-summary {
+    order: -1;
+  }
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+  .booking-page {
+    padding: 16px 10px;
+  }
+
+  .booking-form-card,
+  .booking-summary {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .summary-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
