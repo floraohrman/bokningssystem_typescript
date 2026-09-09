@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import type { Booking } from "../types/booking";
-import { getBookings } from "../api/api";
+import type { Hall } from "../types/hall";
+import type { Sport } from "../types/sport";
+
+import {
+  getBookings,
+  getHalls,
+} from "../api/api";
+
 import {
   availableTimes,
   isTimeAvailable,
@@ -9,15 +17,22 @@ import {
 import "./BookingCalendar.css";
 
 export function BookingCalendar() {
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] =
+    useState<Booking[]>([]);
 
-  const [weekStart, setWeekStart] = useState(
-    new Date("2026-09-07")
-  );
+  const [halls, setHalls] =
+    useState<Hall[]>([]);
 
-  // Tillfälligt hallId för test.
-  // Senare kan detta komma från HallPage / React Router.
-  const hallId = "1";
+  const [selectedHallId, setSelectedHallId] =
+    useState("1");
+
+  const [weekStart, setWeekStart] =
+    useState(new Date("2026-09-07"));
+
+  const navigate = useNavigate();
+
+  // Tillfälligt tills vi har sportvalet på sidan
+  const sport: Sport = "football";
 
   useEffect(() => {
     getBookings()
@@ -25,23 +40,49 @@ export function BookingCalendar() {
         setBookings(data);
       })
       .catch((error) => {
-        console.error("Kunde inte hämta bokningar:", error);
+        console.error(
+          "Kunde inte hämta bokningar:",
+          error
+        );
+      });
+
+    getHalls()
+      .then((data) => {
+        setHalls(data);
+
+        if (data.length > 0) {
+          setSelectedHallId(data[0].id);
+        }
+      })
+      .catch((error) => {
+        console.error(
+          "Kunde inte hämta hallar:",
+          error
+        );
       });
   }, []);
 
-  const days = Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(weekStart);
+  const selectedHall = halls.find(
+    (hall) =>
+      hall.id === selectedHallId
+  );
 
-    date.setDate(
-      weekStart.getDate() + index
-    );
+  const days = Array.from(
+    { length: 7 },
+    (_, index) => {
+      const date = new Date(weekStart);
 
-    return date;
-  });
+      date.setDate(
+        weekStart.getDate() + index
+      );
 
-  
+      return date;
+    }
+  );
+
   function nextWeek() {
-    const next = new Date(weekStart);
+    const next =
+      new Date(weekStart);
 
     next.setDate(
       next.getDate() + 7
@@ -51,7 +92,8 @@ export function BookingCalendar() {
   }
 
   function previousWeek() {
-    const previous = new Date(weekStart);
+    const previous =
+      new Date(weekStart);
 
     previous.setDate(
       previous.getDate() - 7
@@ -60,11 +102,11 @@ export function BookingCalendar() {
     setWeekStart(previous);
   }
 
-  // Gör om Date till formatet:
-  // 2026-09-07
-  // Detta format används av isTimeAvailable()
-  function formatDate(date: Date): string {
-    const year = date.getFullYear();
+  function formatDate(
+    date: Date
+  ): string {
+    const year =
+      date.getFullYear();
 
     const month = String(
       date.getMonth() + 1
@@ -77,8 +119,55 @@ export function BookingCalendar() {
     return `${year}-${month}-${day}`;
   }
 
+  function handleTimeClick(
+    date: string,
+    startTime: string,
+    endTime: string
+  ) {
+    if (selectedHall === undefined) {
+      return;
+    }
+
+    navigate("/booking", {
+      state: {
+        hallId: selectedHall.id,
+        hallName: selectedHall.name,
+        sport,
+        date,
+        startTime,
+        endTime,
+        price: selectedHall.price,
+      },
+    });
+  }
+
   return (
     <section className="booking-calendar">
+        <Link to="/" className="back-link">
+          ← Till startsidan
+         </Link>
+
+      <div className="hall-selector">
+        {halls.map((hall) => (
+          <button
+            type="button"
+            key={hall.id}
+            onClick={() =>
+              setSelectedHallId(
+                hall.id
+              )
+            }
+            className={
+              selectedHallId === hall.id
+                ? "hall-button active"
+                : "hall-button"
+            }
+          >
+            {hall.name}
+          </button>
+        ))}
+      </div>
+
       <div className="calendar-navigation">
         <button
           type="button"
@@ -87,7 +176,9 @@ export function BookingCalendar() {
           ← Tidigare
         </button>
 
-        <h2>Välj tid</h2>
+        <h2>
+          Välj tid
+        </h2>
 
         <button
           type="button"
@@ -99,7 +190,8 @@ export function BookingCalendar() {
 
       <div className="calendar">
         {days.map((day) => {
-          const date = formatDate(day);
+          const date =
+            formatDate(day);
 
           return (
             <div
@@ -124,7 +216,7 @@ export function BookingCalendar() {
                   const available =
                     isTimeAvailable(
                       bookings,
-                      hallId,
+                      selectedHallId,
                       date,
                       timeSlot
                     );
@@ -132,22 +224,42 @@ export function BookingCalendar() {
                   return (
                     <button
                       type="button"
-                      key={timeSlot.startTime}
-                      disabled={!available}
+                      key={
+                        timeSlot.startTime
+                      }
+                      disabled={
+                        !available
+                      }
                       className={
                         available
                           ? "time-slot"
                           : "time-slot booked"
                       }
+                      onClick={() =>
+                        handleTimeClick(
+                          date,
+                          timeSlot.startTime,
+                          timeSlot.endTime
+                        )
+                      }
                     >
                       <strong>
-                        {timeSlot.startTime} -{" "}
-                        {timeSlot.endTime}
+                        {
+                          timeSlot.startTime
+                        }
+                        {" - "}
+                        {
+                          timeSlot.endTime
+                        }
                       </strong>
 
                       <span>
                         {available
-                          ? "500 kr"
+                          ? `${
+                              selectedHall
+                                ?.price ??
+                              0
+                            } kr`
                           : "Bokad"}
                       </span>
                     </button>
@@ -158,6 +270,7 @@ export function BookingCalendar() {
           );
         })}
       </div>
+
     </section>
   );
 }

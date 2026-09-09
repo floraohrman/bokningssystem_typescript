@@ -19,7 +19,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: rgb(17, 18, 18);
+  background-color: #266fb832
 }
 
 .calendar {
@@ -74,6 +74,55 @@
   background: #e5e5e5;
   color: #777;
   cursor: not-allowed;
+}
+
+/* Hall knapparna */
+
+.hall-selector {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.hall-button {
+  padding: 12px 24px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+
+  background: white;
+  color: #172033;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.hall-button:hover {
+  background: #eef3f8;
+}
+
+.hall-button.active {
+  background: #214b73;
+  color: white;
+  border-color: #214b73;
+}
+
+/* Tillbaka  knapp*/
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  color: #214b73;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
 }
 
 /* Surfplatta */

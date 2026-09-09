@@ -60,6 +60,29 @@
       "price": 500,
       "status": "confirmed",
       "id": "ZXKR2WxXdTw"
+    },
+    {
+      "hallId": "1",
+      "sport": "football",
+      "customerName": "Håkan Håkansson",
+      "customerEmail": "HokanHokansson@gmail.com",
+      "startTime": "2026-09-11T18:00:00",
+      "endTime": "2026-09-11T20:30:00",
+      "price": 500,
+      "status": "confirmed",
+      "id": "DE1etpXG75I"
+    },
+    {
+      "hallId": "2",
+      "sport": "football",
+      "customerName": "Johan Johansson",
+      "customerEmail": "JohanJohansson@gmail.com",
+      "startTime": "2026-09-07T18:00:00",
+      "endTime": "2026-09-07T20:30:00",
+      "price": 500,
+      "status": "confirmed",
+      "id": "a5DrNf15Jvg"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
