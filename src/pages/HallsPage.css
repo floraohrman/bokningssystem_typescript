@@ -1,0 +1,49 @@
+.halls-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.halls-page h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.halls-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.halls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.hall-card {
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.hall-card h2 {
+  margin-top: 0;
+}
+
+.hall-card .price {
+  font-weight: bold;
+}
+
+.hall-card a {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 16px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .halls-grid {
+    grid-template-columns: 1fr;
+  }
+}

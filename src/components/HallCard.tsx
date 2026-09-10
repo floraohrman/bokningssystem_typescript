@@ -7,10 +7,11 @@ interface HallCardProps {
 
 function HallCard({ hall }: HallCardProps) {
   return (
-    <article>
+    <article className="hall-card">
       <h2>{hall.name}</h2>
 
       <p>Pris: {hall.price} kr</p>
+      <p>{hall.description}</p>
 
       <Link to={`/halls/${hall.id}`}>VISA HALL {hall.id}</Link>
     </article>

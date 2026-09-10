@@ -1,14 +1,21 @@
 import { Link } from "react-router";
+import "./HomePage.css";
 
-export default function HomePage() {
+function HomePage() {
   return (
-    <main>
-       <h1>Välkommen till BALLERS</h1>
-      <p>Boka din hall för fotboll, handboll eller innebandy</p>
+    <main className="home-page">
+      <section className="hero">
+        <h1>Välkommen till BALLERS</h1>
 
-      <Link to="/calendar">
-        Gå till bokning
-      </Link>
+        <p>Boka din sporthall för fotboll, handboll eller innebandy.</p>
+
+        <div className="home-buttons">
+          <Link to="/halls">Våra hallar</Link>
+          <Link to="/calendar">Boka hall</Link>
+        </div>
+      </section>
     </main>
   );
 }
+
+export default HomePage;
