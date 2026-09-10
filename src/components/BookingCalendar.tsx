@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
+
 import type { Booking } from "../types/booking";
 import type { Hall } from "../types/hall";
 import type { Sport } from "../types/sport";
@@ -26,13 +27,31 @@ export function BookingCalendar() {
   const [selectedHallId, setSelectedHallId] =
     useState("1");
 
-  const [weekStart, setWeekStart] =
-    useState(new Date("2026-09-07"));
-
   const navigate = useNavigate();
 
-  // Tillfälligt tills vi har sportvalet på sidan
   const sport: Sport = "football";
+
+  function getStartOfWeek(date: Date): Date {
+    const start = new Date(date);
+    const day = start.getDay();
+
+    const difference =
+      day === 0 ? -6 : 1 - day;
+
+    start.setDate(
+      start.getDate() + difference
+    );
+
+    start.setHours(0, 0, 0, 0);
+
+    return start;
+  }
+
+  const currentWeekStart =
+    getStartOfWeek(new Date());
+
+  const [weekStart, setWeekStart] =
+    useState(currentWeekStart);
 
   useEffect(() => {
     getBookings()
@@ -67,6 +86,7 @@ export function BookingCalendar() {
       hall.id === selectedHallId
   );
 
+  
   const days = Array.from(
     { length: 7 },
     (_, index) => {
@@ -80,6 +100,7 @@ export function BookingCalendar() {
     }
   );
 
+  
   function nextWeek() {
     const next =
       new Date(weekStart);
@@ -91,6 +112,7 @@ export function BookingCalendar() {
     setWeekStart(next);
   }
 
+  
   function previousWeek() {
     const previous =
       new Date(weekStart);
@@ -99,9 +121,18 @@ export function BookingCalendar() {
       previous.getDate() - 7
     );
 
+    if (previous < currentWeekStart) {
+      return;
+    }
+
     setWeekStart(previous);
   }
 
+  const isCurrentWeek =
+    weekStart.getTime() ===
+    currentWeekStart.getTime();
+
+  
   function formatDate(
     date: Date
   ): string {
@@ -119,6 +150,64 @@ export function BookingCalendar() {
     return `${year}-${month}-${day}`;
   }
 
+  
+  function getMinutesRemaining(
+    date: string,
+    endTime: string
+  ): number {
+    const end =
+      new Date(
+        `${date}T${endTime}:00`
+      );
+
+    const now = new Date();
+
+    const difference =
+      end.getTime() - now.getTime();
+
+    return Math.floor(
+      difference / (1000 * 60)
+    );
+  }
+
+  function hasSlotStarted(
+    date: string,
+    startTime: string
+  ): boolean {
+    const start =
+      new Date(
+        `${date}T${startTime}:00`
+      );
+
+    return start < new Date();
+  }
+
+  function formatRemainingTime(
+    minutesRemaining: number
+  ): string {
+    const hours =
+      Math.floor(
+        minutesRemaining / 60
+      );
+
+    const minutes =
+      minutesRemaining % 60;
+
+    if (hours === 0) {
+      return `${minutes} minuter`;
+    }
+
+    if (minutes === 0) {
+      return hours === 1
+        ? "1 timme"
+        : `${hours} timmar`;
+    }
+
+    return hours === 1
+      ? `1 timme och ${minutes} minuter`
+      : `${hours} timmar och ${minutes} minuter`;
+  }
+
   function handleTimeClick(
     date: string,
     startTime: string,
@@ -126,6 +215,39 @@ export function BookingCalendar() {
   ) {
     if (selectedHall === undefined) {
       return;
+    }
+
+    const started =
+      hasSlotStarted(
+        date,
+        startTime
+      );
+
+    const minutesRemaining =
+      getMinutesRemaining(
+        date,
+        endTime
+      );
+
+    if (minutesRemaining <= 60) {
+      return;
+    }
+
+
+    if (started) {
+      const remainingText =
+        formatRemainingTime(
+          minutesRemaining
+        );
+
+      const confirmed =
+        window.confirm(
+          `Tiden har redan börjat. Det är ${remainingText} kvar. Är du säker på att du vill boka?`
+        );
+
+      if (!confirmed) {
+        return;
+      }
     }
 
     navigate("/booking", {
@@ -143,9 +265,13 @@ export function BookingCalendar() {
 
   return (
     <section className="booking-calendar">
-        <Link to="/" className="back-link">
-          ← Till startsidan
-         </Link>
+
+      <Link
+        to="/"
+        className="back-link"
+      >
+        ← Till startsidan
+      </Link>
 
       <div className="hall-selector">
         {halls.map((hall) => (
@@ -172,13 +298,12 @@ export function BookingCalendar() {
         <button
           type="button"
           onClick={previousWeek}
+          disabled={isCurrentWeek}
         >
           ← Tidigare
         </button>
 
-        <h2>
-          Välj tid
-        </h2>
+        <h2>Välj tid</h2>
 
         <button
           type="button"
@@ -221,6 +346,22 @@ export function BookingCalendar() {
                       timeSlot
                     );
 
+                  const started =
+                    hasSlotStarted(
+                      date,
+                      timeSlot.startTime
+                    );
+
+                  const minutesRemaining =
+                    getMinutesRemaining(
+                      date,
+                      timeSlot.endTime
+                    );
+
+                  
+                  const tooLate =
+                    minutesRemaining <= 60;
+
                   return (
                     <button
                       type="button"
@@ -228,12 +369,15 @@ export function BookingCalendar() {
                         timeSlot.startTime
                       }
                       disabled={
-                        !available
+                        !available ||
+                        tooLate
                       }
                       className={
-                        available
-                          ? "time-slot"
-                          : "time-slot booked"
+                        !available
+                          ? "time-slot booked"
+                          : tooLate
+                            ? "time-slot past"
+                            : "time-slot"
                       }
                       onClick={() =>
                         handleTimeClick(
@@ -254,13 +398,18 @@ export function BookingCalendar() {
                       </strong>
 
                       <span>
-                        {available
-                          ? `${
-                              selectedHall
-                                ?.price ??
-                              0
-                            } kr`
-                          : "Bokad"}
+                        {!available
+                          ? "Bokad"
+                          : tooLate
+                            ? "Ej bokningsbar"
+                            : started
+                              ? `${formatRemainingTime(
+                                  minutesRemaining
+                                )} kvar`
+                              : `${
+                                  selectedHall
+                                    ?.price ?? 0
+                                } kr`}
                       </span>
                     </button>
                   );
@@ -270,7 +419,6 @@ export function BookingCalendar() {
           );
         })}
       </div>
-
     </section>
   );
 }
