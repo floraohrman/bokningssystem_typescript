@@ -4,6 +4,8 @@ import App from "./App";
 import HomePage from "./pages/HomePage";
 import CalendarPage from "./pages/CalendarPage";
 import BookingPage from "./pages/BookingPage";
+import HallsPage from "./pages/HallsPage";
+import HallPage from "./pages/HallPage";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ export const router = createBrowserRouter([
       {
         path: "/booking",
         element: <BookingPage />,
+      },
+      {
+        path: "/halls",
+        element: <HallsPage />,
+      },
+      {
+        path: "/halls/:id",
+        element: <HallPage />,
       },
     ],
   },

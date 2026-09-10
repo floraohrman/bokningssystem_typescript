@@ -1,4 +1,5 @@
-import { Link } from "react-router";
+import { halls } from "../data/halls";
+import HallCard from "../components/HallCard";
 
 function HallsPage() {
   return (
@@ -8,9 +9,9 @@ function HallsPage() {
       <p>Här kan du välja vilken hall du vill boka.</p>
 
       <section>
-        <Link to="/halls/1">Hall 1</Link>
-        <Link to="/halls/2">Hall 2</Link>
-        <Link to="/halls/3">Hall 3</Link>
+        {halls.map((hall) => (
+          <HallCard key={hall.id} hall={hall} />
+        ))}
       </section>
     </main>
   );
