@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { Link } from "react-router";
-=======
->>>>>>> 7d67c236fefb0bc0f036e939ffce2611230ca53e
 import type { Hall } from "../types/hall";
 
 interface HallCardProps {
