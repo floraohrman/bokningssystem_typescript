@@ -1,7 +1,4 @@
-interface Hall {
-  name: string;
-  price: number;
-}
+import type { Hall } from "../types/hall";
 
 interface HallCardProps {
   hall: Hall;
